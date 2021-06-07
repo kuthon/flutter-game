@@ -3,7 +3,7 @@ import 'dart:isolate';
 bool _running = true;
 
 void mainLoop(SendPort sendPort) async {
-  final double _fps = 60;
+  final double _fps = 50;
   final double _second = 1000;
   final double _frameTime = _second / _fps;
 

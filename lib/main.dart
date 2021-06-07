@@ -1,40 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:test_game/utils/global_vars.dart';
-import 'game/game_core/game.dart';
+import 'package:test_game/pages/landing_page.dart';
 
-void main() {
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
   ]);
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
-  _MyAppState createState() => _MyAppState();
-}
 
-class _MyAppState extends State<MyApp> {
-  
-  @override
-  void didChangeDependencies() {
-    GlobalVars.screenHeight = MediaQuery.of(context).size.height;
-    GlobalVars.screenWidth = MediaQuery.of(context).size.width;
-    super.didChangeDependencies();
-  }
-  
-  @override
   Widget build(BuildContext context) {
     return CupertinoApp(
         debugShowCheckedModeBanner: false,
           home: SafeArea(
             child: Scaffold(
-              body: Game(),
+              body: LandingPage(),
             ),
           )
     );
   }
 }
+
