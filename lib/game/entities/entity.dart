@@ -23,19 +23,21 @@ abstract class Entity {
 
   Entity({required this.spriteName, required this.width,required this.height, required int numberOfSprites}) {
     for (int i = 1; i < numberOfSprites + 1; i++)
-      sprites.add(Image.asset("assets/$spriteName$i.png", fit: BoxFit.fill,));
+      sprites.add(Image.asset("assets/images/$spriteName$i.png", fit: BoxFit.fill,));
   }
 
-  void _animate() {
+  void animate() {
 
   }
 
   void update() {
-    _animate();
+    animate();
     move();
   }
 
-  void move();
+  void move() {
+
+  }
 
   Widget build();
 }

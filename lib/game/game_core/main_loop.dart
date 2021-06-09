@@ -27,8 +27,11 @@ void mainLoop(SendPort sendPort) async {
       _fpsWatch.reset();
     }
   }
+  _fpsWatch.stop();
+  _frameTimeWatch.stop();
 }
 
 void stopLoop() {
+  print('Loop stopped');
   _running = false;
 }

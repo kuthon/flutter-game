@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,10 +20,10 @@ class MyApp extends StatelessWidget {
     return CupertinoApp(
         debugShowCheckedModeBanner: false,
           home: SafeArea(
-            child: Scaffold(
-              body: LandingPage(),
+              child: Scaffold(
+                body: LandingPage(),
+              ),
             ),
-          )
     );
   }
 }

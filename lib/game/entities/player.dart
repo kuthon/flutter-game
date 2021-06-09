@@ -5,7 +5,7 @@ import 'entity.dart';
 
 class Player extends Entity {
   Player() : super(spriteName: "spaceRocket", width: 50, height: 90, numberOfSprites: 1) {
-    x = 0;
+    x = GlobalVars.screenWidth / 2 - width / 2;
     y = 10;
   }
 
