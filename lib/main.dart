@@ -1,10 +1,10 @@
-
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:test_game/pages/landing_page.dart';
+import 'package:test_game/pages/home_page.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -14,17 +14,19 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
-  @override
 
+  @override
   Widget build(BuildContext context) {
     return CupertinoApp(
-        debugShowCheckedModeBanner: false,
-          home: SafeArea(
-              child: Scaffold(
-                body: LandingPage(),
-              ),
-            ),
+      debugShowCheckedModeBanner: false,
+      home: SafeArea(
+        child: Scaffold(
+          body: AudioServiceWidget(
+              child:
+              HomePage()
+          ),
+        ),
+      ),
     );
   }
 }
-

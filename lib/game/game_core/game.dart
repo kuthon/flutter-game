@@ -20,9 +20,9 @@ class _GameState extends State<Game> {
     _receivePort = ReceivePort();
     _isolateLoop = await Isolate.spawn(mainLoop, _receivePort.sendPort);
     _receivePort.listen((message) {
-      GlobalVars.currentScene.update();
-      setState(() {
-      });
+        GlobalVars.currentScene.update();
+        setState(() {});
+
     });
   }
 

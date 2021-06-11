@@ -1,5 +1,7 @@
 import 'dart:isolate';
 
+import 'package:test_game/utils/global_vars.dart';
+
 bool _running = true;
 
 void mainLoop(SendPort sendPort) async {
