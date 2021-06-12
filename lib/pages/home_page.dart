@@ -1,8 +1,7 @@
 import 'package:audio_service/audio_service.dart';
-import 'package:flutter/material.dart';
 import 'package:test_game/game/game_core/game.dart';
-import 'package:test_game/game/game_core/main_loop.dart';
 import 'package:test_game/services/audio_service.dart';
+import 'package:flutter/material.dart';
 import 'package:test_game/utils/global_vars.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,36 +19,51 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    AudioService.start(backgroundTaskEntrypoint: backgroundTaskEntrypoint)
-        .whenComplete(() => AudioService.play());
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
   void dispose() {
-    AudioService.disconnect();
-    stopLoop();
     WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('AppLifecycleState: $state');
+    if (state != AppLifecycleState.resumed) {
+      AudioService.pause();
+    } else {
+      if (AudioService.connected)
+        AudioService.play();
+      else
+        AudioService.connect()
+            .whenComplete(() => AudioService.start(
+                backgroundTaskEntrypoint: backgroundTaskEntrypoint))
+            .whenComplete(() => AudioService.play());
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/background.png'),
-              fit: BoxFit.cover)
-              ),
-      child: Game(),
-
-    );
+    return FutureBuilder(
+        future: Future( () async {
+          await AudioService.start(
+          backgroundTaskEntrypoint: backgroundTaskEntrypoint);
+        }),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container();
+          } else {
+            AudioService.play();
+            return Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/background.png'),
+                      fit: BoxFit.cover)),
+              child: Game(),
+        );
+      }
+    });
   }
 }

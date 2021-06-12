@@ -1,8 +1,7 @@
 import 'dart:isolate';
-import 'package:flutter/material.dart';
 import 'package:test_game/utils/global_vars.dart';
+import 'package:flutter/material.dart';
 import 'main_loop.dart';
-
 
 class Game extends StatefulWidget {
   const Game({Key? key}) : super(key: key);
@@ -11,8 +10,9 @@ class Game extends StatefulWidget {
   _GameState createState() => _GameState();
 }
 
-class _GameState extends State<Game> {
+class _GameState extends State<Game> with WidgetsBindingObserver {
 
+  AppLifecycleState _state = AppLifecycleState.resumed;
   late Isolate _isolateLoop;
   late ReceivePort _receivePort;
 
@@ -20,9 +20,10 @@ class _GameState extends State<Game> {
     _receivePort = ReceivePort();
     _isolateLoop = await Isolate.spawn(mainLoop, _receivePort.sendPort);
     _receivePort.listen((message) {
-        GlobalVars.currentScene.update();
-        setState(() {});
-
+        if (_state == AppLifecycleState.resumed) {
+          GlobalVars.currentScene.update();
+          setState(() {});
+        }
     });
   }
 
@@ -30,12 +31,19 @@ class _GameState extends State<Game> {
   void initState() {
     startIsolate();
     super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _state = state;
   }
 
   @override
   void dispose() {
     _receivePort.close();
     _isolateLoop.kill();
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 

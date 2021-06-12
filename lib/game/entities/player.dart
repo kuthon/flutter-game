@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:test_game/utils/global_vars.dart';
+import 'package:flutter/material.dart';
 import 'entity.dart';
 
 

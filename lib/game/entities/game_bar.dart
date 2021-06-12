@@ -1,7 +1,8 @@
+import 'package:test_game/utils/global_vars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:test_game/game/entities/entity.dart';
-import 'package:test_game/utils/global_vars.dart';
+
+import 'entity.dart';
 
 class GameBar extends Entity {
 

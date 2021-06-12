@@ -1,10 +1,12 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/material.dart';
 import 'package:test_game/game/entities/game_bar.dart';
 import 'package:test_game/game/entities/meteor.dart';
 import 'package:test_game/game/entities/player.dart';
-import 'package:test_game/game/scenes/app_scene.dart';
 import 'package:test_game/utils/global_vars.dart';
+import 'package:flutter/material.dart';
+
+import 'app_scene.dart';
+
 
 class GameScene extends AppScene {
   var _audio = AudioCache(

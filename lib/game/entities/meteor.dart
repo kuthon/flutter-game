@@ -1,7 +1,8 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:test_game/game/entities/entity.dart';
 import 'package:test_game/utils/global_vars.dart';
+import 'package:flutter/material.dart';
+
+import 'entity.dart';
 
 class Meteor extends Entity {
   late double _speed;

@@ -11,42 +11,45 @@ class AudioPlayerTask extends BackgroundAudioTask {
 
   @override
   Future<void> onStart(Map<String, dynamic>? params) async {
-    print('start');
+    AudioServiceBackground.setState(
+        playing: true,
+        processingState: AudioProcessingState.connecting
+    );
     await _audioPlayer.setAsset('assets/music/background.mp3');
     _audioPlayer.setLoopMode(LoopMode.one);
-
+    _audioPlayer.setSpeed(1);
+    AudioServiceBackground.setState(
+        playing: true, processingState: AudioProcessingState.ready);
   }
 
   @override
   Future<void> onStop() async {
+    AudioServiceBackground.setState(
+        playing: false,
+        processingState: AudioProcessingState.ready
+    );
     await _audioPlayer.stop();
     await super.onStop();
   }
 
   @override
   Future<void> onPlay() async {
+    AudioServiceBackground.setState(
+        playing: true,
+        processingState: AudioProcessingState.ready
+    );
     await _audioPlayer.play();
     return super.onPlay();
   }
 
   @override
   Future<void> onPause() async {
+    AudioServiceBackground.setState(
+        playing: false,
+        processingState: AudioProcessingState.ready
+    );
     await _audioPlayer.pause();
     return super.onPause();
-  }
-
-  @override
-  Future<void> onSeekTo(Duration position) {
-    _audioPlayer.seek(position);
-    AudioServiceBackground.setState(position: position);
-    return super.onSeekTo(position);
-  }
-
-  @override
-  Future<void> onClose() async{
-    await _audioPlayer.pause();
-    await _audioPlayer.dispose();
-    return super.onClose();
   }
 
 }
