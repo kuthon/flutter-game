@@ -4,17 +4,18 @@ import 'package:test_game/game/entities/meteor.dart';
 import 'package:test_game/game/entities/player.dart';
 import 'package:test_game/utils/global_vars.dart';
 import 'package:flutter/material.dart';
-
 import 'app_scene.dart';
 
 
 class GameScene extends AppScene {
-  var _audio = AudioCache(
+
+
+  AudioCache _audioCache = AudioCache(
       prefix: "assets/music/",
       fixedPlayer: AudioPlayer(
         mode: PlayerMode.MEDIA_PLAYER,
       )..setReleaseMode(ReleaseMode.STOP))
-    ..loadAll(['fail.mp3', 'gameover.mp3']);
+  ..loadAll(['gameover.mp3', 'fail.mp3']);
 
   Player _player = Player();
   List<Meteor> _meteors = [
@@ -29,9 +30,9 @@ class GameScene extends AppScene {
   Widget buildScene() {
     return Stack(
       children: [
-        _gameBar.build(),
         for (Meteor meteor in _meteors) meteor.build(),
         _player.build(),
+        _gameBar.build(),
         Positioned(
             bottom: 0,
             left: 0,
@@ -48,9 +49,11 @@ class GameScene extends AppScene {
   }
 
   void _onPan(details) {
-    double fromPositionX = _player.x + _player.width / 2;
-    double toPositionX = details.globalPosition.dx;
-    _player.dx = (toPositionX - fromPositionX);
+    if (GlobalVars.isPause == false) {
+      double fromPositionX = _player.x + _player.width / 2;
+      double toPositionX = details.globalPosition.dx;
+      _player.dx = (toPositionX - fromPositionX);
+    }
   }
 
   @override
@@ -81,13 +84,13 @@ class GameScene extends AppScene {
   void fail() async {
     _gameBar.lives--;
     if (_gameBar.lives <= 0) {
-      await _audio.play('gameover.mp3');
+      await _audioCache.play('gameover.mp3');
       print('GAME OVER');
 
       ///restarting the game
       GlobalVars.currentScene = GameScene();
     } else {
-      await _audio.play('fail.mp3');
+      await _audioCache.play('fail.mp3');
     }
   }
 }

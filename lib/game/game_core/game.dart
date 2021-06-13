@@ -20,10 +20,10 @@ class _GameState extends State<Game> with WidgetsBindingObserver {
     _receivePort = ReceivePort();
     _isolateLoop = await Isolate.spawn(mainLoop, _receivePort.sendPort);
     _receivePort.listen((message) {
-        if (_state == AppLifecycleState.resumed) {
+        if (_state == AppLifecycleState.resumed && GlobalVars.isPause == false) {
           GlobalVars.currentScene.update();
-          setState(() {});
         }
+        setState(() {});
     });
   }
 

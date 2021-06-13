@@ -27,15 +27,26 @@ class GameBar extends Entity {
         width: width,
         height: height,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            IconButton(
+                onPressed: () {GlobalVars.isPause = !GlobalVars.isPause;},
+                icon: Icon(
+                    GlobalVars.isPause ? Icons.pause : Icons.play_arrow,
+                  color: Colors.grey.withOpacity(0.9),
+                ),
+            ),
             Text('Счёт: $score', style: TextStyle(fontSize: 16, color: Colors.white),),
-            Row(
-              children: [
-                for (int i = 0; i < lives; i++)
-                  Icon(Icons.favorite, color: Colors.red,)
-              ],
+            Container(
+              width: 72,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  for (int i = 0; i < lives; i++)
+                    Icon(Icons.favorite, color: Colors.red,)
+                ],
+              ),
             )
           ],
         ),
