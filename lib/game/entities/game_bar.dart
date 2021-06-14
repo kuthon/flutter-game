@@ -6,7 +6,7 @@ import 'entity.dart';
 
 class GameBar extends Entity {
 
-  late int score;
+  static int score = 0;
   late int lives;
 
   GameBar() : super(numberOfSprites: 0, height: 40, width: GlobalVars.screenWidth, spriteName: ""){
@@ -30,12 +30,21 @@ class GameBar extends Entity {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(
-                onPressed: () {GlobalVars.isPause = !GlobalVars.isPause;},
-                icon: Icon(
-                    GlobalVars.isPause ? Icons.pause : Icons.play_arrow,
-                  color: Colors.grey.withOpacity(0.9),
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              child: Container(
+                height: 40,
+                width: 40,
+                child: Center(
+                  child: Icon(
+                    GlobalVars.isPause ?  Icons.play_arrow: Icons.pause,
+                    color: Colors.grey.withOpacity(0.9),
+                  ),
                 ),
+              ),
+              onTap: () {
+                GlobalVars.isPause = !GlobalVars.isPause;
+              },
             ),
             Text('Счёт: $score', style: TextStyle(fontSize: 16, color: Colors.white),),
             Container(

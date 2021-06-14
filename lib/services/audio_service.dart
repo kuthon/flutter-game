@@ -18,6 +18,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
     await _audioPlayer.setAsset('assets/music/background.mp3');
     _audioPlayer.setLoopMode(LoopMode.one);
     _audioPlayer.setSpeed(1);
+
     AudioServiceBackground.setState(
         playing: true, processingState: AudioProcessingState.ready);
   }
@@ -26,7 +27,7 @@ class AudioPlayerTask extends BackgroundAudioTask {
   Future<void> onStop() async {
     AudioServiceBackground.setState(
         playing: false,
-        processingState: AudioProcessingState.ready
+        processingState: AudioProcessingState.stopped,
     );
     await _audioPlayer.stop();
     await super.onStop();

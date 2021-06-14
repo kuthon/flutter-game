@@ -2,12 +2,15 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:test_game/game/entities/game_bar.dart';
 import 'package:test_game/game/entities/meteor.dart';
 import 'package:test_game/game/entities/player.dart';
+import 'package:test_game/pages/game_over_page.dart';
+import 'package:test_game/services/navigation_service.dart';
 import 'package:test_game/utils/global_vars.dart';
 import 'package:flutter/material.dart';
 import 'app_scene.dart';
 
 
 class GameScene extends AppScene {
+
 
 
   AudioCache _audioCache = AudioCache(
@@ -32,18 +35,18 @@ class GameScene extends AppScene {
       children: [
         for (Meteor meteor in _meteors) meteor.build(),
         _player.build(),
-        _gameBar.build(),
         Positioned(
             bottom: 0,
             left: 0,
             child: Container(
-              height: GlobalVars.screenHeight,
+              height: GlobalVars.screenHeight - 80,
               width: GlobalVars.screenWidth,
               child: GestureDetector(
                 onPanStart: (details) => _onPan(details),
                 onPanUpdate: (details) => _onPan(details),
               ),
             )),
+        _gameBar.build(),
       ],
     );
   }
@@ -87,8 +90,8 @@ class GameScene extends AppScene {
       await _audioCache.play('gameover.mp3');
       print('GAME OVER');
 
-      ///restarting the game
-      GlobalVars.currentScene = GameScene();
+      GlobalVars.isPause = true;
+      NavigationService.instance.navigateTo('gameover');
     } else {
       await _audioCache.play('fail.mp3');
     }
