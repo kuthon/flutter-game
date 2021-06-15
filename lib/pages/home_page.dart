@@ -52,13 +52,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         future: Future( () async {
           await AudioService.start(
           backgroundTaskEntrypoint: backgroundTaskEntrypoint);
-          await AudioService.play();
         }),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container();
           } else {
-            //this line is needed for FutureBuilder to be updated
             AudioService.play();
             return Container(
               decoration: BoxDecoration(

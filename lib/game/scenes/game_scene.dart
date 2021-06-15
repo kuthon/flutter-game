@@ -85,8 +85,8 @@ class GameScene extends AppScene {
   }
 
   void fail() async {
-    _gameBar.lives--;
-    if (_gameBar.lives <= 0) {
+    GameBar.lives--;
+    if (GameBar.lives <= 0) {
       await _audioCache.play('gameover.mp3');
       print('GAME OVER');
 

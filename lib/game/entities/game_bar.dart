@@ -7,7 +7,7 @@ import 'entity.dart';
 class GameBar extends Entity {
 
   static int score = 0;
-  late int lives;
+  static int lives = 3;
 
   GameBar() : super(numberOfSprites: 0, height: 40, width: GlobalVars.screenWidth, spriteName: ""){
     reInit();
