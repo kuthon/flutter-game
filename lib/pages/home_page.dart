@@ -1,6 +1,5 @@
-import 'package:audio_service/audio_service.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:test_game/game/game_core/game.dart';
-import 'package:test_game/services/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:test_game/utils/global_vars.dart';
 
@@ -10,6 +9,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
+
+  AudioCache cache = AudioCache(prefix: 'assets/music/');
+  AudioPlayer player = AudioPlayer(playerId: 'background');
+  late final String url;
+
+  Future<void> loadAudio() async{
+    url = (await cache.load('background.mp3')).path;
+    await player.setUrl(url);
+    await player.setReleaseMode(ReleaseMode.STOP);
+  }
+
+  void startAudio() async{
+    await player.resume();
+    player.onPlayerCompletion.listen((_) {
+      player.resume();
+    });
+  }
 
   @override
   void initState() {
@@ -26,8 +42,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    AudioService.stop();
-    AudioService.disconnect();
+    player.dispose();
+    cache.clearAll();
     WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
@@ -35,27 +51,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state != AppLifecycleState.resumed) {
-      AudioService.pause();
+      player.pause();
     } else {
-      if (AudioService.connected)
-        AudioService.play();
-      else
-        AudioService.connect()
-            .whenComplete(() => AudioService.start(backgroundTaskEntrypoint: backgroundTaskEntrypoint))
-            .whenComplete(() => AudioService.play());
+      player.resume();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(future: Future(() async {
-      await AudioService.start(
-          backgroundTaskEntrypoint: backgroundTaskEntrypoint);
+      await loadAudio();
     }), builder: (context, AsyncSnapshot snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return Container();
       } else {
-        AudioService.play();
+        startAudio();
         return Container(
           decoration: BoxDecoration(
               image: DecorationImage(
