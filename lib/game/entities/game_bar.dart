@@ -46,7 +46,7 @@ class GameBar extends Entity {
                 GlobalVars.isPause = !GlobalVars.isPause;
               },
             ),
-            Text('Счёт: $score', style: TextStyle(fontSize: 16, color: Colors.white),),
+            Text('Score: $score', style: TextStyle(fontSize: 16, color: Colors.white),),
             Container(
               width: 72,
               child: Row(

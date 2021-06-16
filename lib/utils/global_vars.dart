@@ -5,5 +5,6 @@ class GlobalVars {
   static double screenWidth = 0;
   static double screenHeight = 0;
   static AppScene currentScene = GameScene();
+  static AppScene previousScene = GameScene();
   static bool isPause = false;
 }

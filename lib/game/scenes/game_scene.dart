@@ -2,30 +2,25 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:test_game/game/entities/game_bar.dart';
 import 'package:test_game/game/entities/meteor.dart';
 import 'package:test_game/game/entities/player.dart';
-import 'package:test_game/pages/game_over_page.dart';
-import 'package:test_game/services/navigation_service.dart';
+import 'package:test_game/game/scenes/game_over_scene.dart';
 import 'package:test_game/utils/global_vars.dart';
 import 'package:flutter/material.dart';
 import 'app_scene.dart';
 
-
 class GameScene extends AppScene {
-
-
-
   AudioCache _audioCache = AudioCache(
       prefix: "assets/music/",
       fixedPlayer: AudioPlayer(
         mode: PlayerMode.MEDIA_PLAYER,
       )..setReleaseMode(ReleaseMode.STOP))
-  ..loadAll(['gameover.mp3', 'fail.mp3']);
+    ..loadAll(['gameover.mp3', 'fail.mp3']);
 
   Player _player = Player();
   List<Meteor> _meteors = [
-    Meteor(item: 0, length: 4),
-    Meteor(item: 1, length: 4),
-    Meteor(item: 2, length: 4),
-    Meteor(item: 3, length: 4),
+    Meteor(y: GlobalVars.screenHeight * 1.1),
+    Meteor(y: GlobalVars.screenHeight * 1.3),
+    Meteor(y: GlobalVars.screenHeight * 1.5),
+    Meteor(y: GlobalVars.screenHeight * 1.7),
   ];
   GameBar _gameBar = GameBar();
 
@@ -67,7 +62,7 @@ class GameScene extends AppScene {
     for (Meteor _meteor in _meteors) {
       _meteor.update();
 
-      ///meteor impact check
+      //meteor hit check
       if (_meteor.x > _player.x &&
           _meteor.x < (_player.x + _player.width) &&
           _meteor.y < (_player.y + _player.height) &&
@@ -84,16 +79,16 @@ class GameScene extends AppScene {
     }
   }
 
-  void fail() async {
+  void fail() {
     GameBar.lives--;
-    if (GameBar.lives <= 0) {
-      await _audioCache.play('gameover.mp3');
+    if (GameBar.lives == 0) {
+      _audioCache.play('gameover.mp3');
       print('GAME OVER');
-
       GlobalVars.isPause = true;
-      NavigationService.instance.navigateTo('gameover');
+      GlobalVars.previousScene = this;
+      GlobalVars.currentScene = GameOverScene();
     } else {
-      await _audioCache.play('fail.mp3');
+      _audioCache.play('fail.mp3');
     }
   }
 }

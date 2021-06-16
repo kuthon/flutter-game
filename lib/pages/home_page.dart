@@ -10,17 +10,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
-  @override
-  void didChangeDependencies() {
-    GlobalVars.screenHeight = MediaQuery.of(context).size.height;
-    GlobalVars.screenWidth = MediaQuery.of(context).size.width;
-    super.didChangeDependencies();
-  }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    GlobalVars.screenHeight = MediaQuery.of(context).size.height;
+    GlobalVars.screenWidth = MediaQuery.of(context).size.width;
+    super.didChangeDependencies();
   }
 
   @override
@@ -40,30 +41,27 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         AudioService.play();
       else
         AudioService.connect()
-            .whenComplete(() => AudioService.start(
-                backgroundTaskEntrypoint: backgroundTaskEntrypoint))
+            .whenComplete(() => AudioService.start(backgroundTaskEntrypoint: backgroundTaskEntrypoint))
             .whenComplete(() => AudioService.play());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Future( () async {
-          await AudioService.start(
+    return FutureBuilder(future: Future(() async {
+      await AudioService.start(
           backgroundTaskEntrypoint: backgroundTaskEntrypoint);
-        }),
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container();
-          } else {
-            AudioService.play();
-            return Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/background.png'),
-                      fit: BoxFit.cover)),
-              child: Game(),
+    }), builder: (context, AsyncSnapshot snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Container();
+      } else {
+        AudioService.play();
+        return Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/images/background.png'),
+                  fit: BoxFit.cover)),
+          child: Game(),
         );
       }
     });
