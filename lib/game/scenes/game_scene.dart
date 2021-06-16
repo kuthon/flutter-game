@@ -9,7 +9,7 @@ import 'app_scene.dart';
 
 class GameScene extends AppScene {
   AudioCache _audioCache = AudioCache(
-      prefix: "assets/music/",
+      prefix: "assets/audio/",
       fixedPlayer: AudioPlayer(
         mode: PlayerMode.MEDIA_PLAYER,
       )..setReleaseMode(ReleaseMode.STOP))

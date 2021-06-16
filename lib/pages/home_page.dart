@@ -10,7 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
-  AudioCache cache = AudioCache(prefix: 'assets/music/');
+  AudioCache cache = AudioCache(prefix: 'assets/audio/');
   AudioPlayer player = AudioPlayer(playerId: 'background');
   late final String url;
 
