@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:test_game/game/entities/game_bar.dart';
 import 'package:test_game/game/entities/meteor.dart';
 import 'package:test_game/game/entities/player.dart';
@@ -8,6 +9,24 @@ import 'package:flutter/material.dart';
 import 'app_scene.dart';
 
 class GameScene extends AppScene {
+
+  GameScene(){
+    GlobalVars.adIsShowed = false;
+    RewardedAd.load(
+        adUnitId: RewardedAd.testAdUnitId,
+        request: AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+            onAdLoaded: (RewardedAd ad) {
+              print('$ad loaded.');
+              GlobalVars.rewardedAd = ad;
+            },
+            onAdFailedToLoad: (LoadAdError error) {
+              print('RewardedAd failed to load: $error');
+            }
+        )
+    );
+  }
+
   AudioCache _audioCache = AudioCache(
       prefix: "assets/audio/",
       fixedPlayer: AudioPlayer(

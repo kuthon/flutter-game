@@ -1,4 +1,6 @@
+
 import 'package:audio_service/audio_service.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:test_game/pages/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  MobileAds.instance.initialize();
   runApp(MyApp());
 }
 
