@@ -106,6 +106,8 @@ class GameScene extends AppScene {
       GlobalVars.isPause = true;
       GlobalVars.previousScene = this;
       GlobalVars.currentScene = GameOverScene();
+      for (Meteor _meteor in _meteors)
+        _meteor.y += GlobalVars.screenHeight;
     } else {
       _audioCache.play('fail.mp3');
     }
